@@ -4,3 +4,8 @@ typedef struct {
   char* value;
 } ht_item;
 
+typedef struct {
+  int count;
+  int size;
+  ht_item** items;
+} ht_hash_table;
