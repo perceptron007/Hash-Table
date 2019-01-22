@@ -50,4 +50,17 @@ The index that should be used after *i* collisions is given by:
 
   index = hash_a(string) + i * hash_b(string) % num_buckets
 
-We see that if no collisions have occured, i = 0, so the index is just hash_a of the string. If a collision happens, 
+We see that if no collisions have occured, i = 0, so the index is just hash_a of the string. If a collision happens, the index is modified by the hash_b.
+
+It is possible that hash_b will return 0, reducing the second term to 0. This will cause the hash table to try to insert the item into the same bucket over and over. We can mitigate this by adding 1 to the result of the second hash, making sure it's never 0.
+
+` index = (hash_a(string) + i * (hash_b(string) + 1)) % num_buckets
+
+### Methods
+
+**Insert**
+To insert a new key-value pair, we iterate through indexes until we find an empty bucket. We then insert the item into that bucket and increment the hash table's *count* attribute to indicate new item has been added. A hash table's *count* attribute will become useful when we look at *resizing* in the next section.
+
+**Searching**
+Searching is similar to inserting, but at each iteration of the while loop, we check whether the item's key matches the key we're searching for. If it does, we return the item's value. If the while loop hits a null bucket, we return NULL, to indicate that no value was found.
+
